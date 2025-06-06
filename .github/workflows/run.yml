@@ -40,7 +40,7 @@ jobs:
         echo "body<<EOF" >> $GITHUB_OUTPUT
         cat README.md >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
-    - name: Send email with arXiv math papers
+    - name: Send email with README.md content
       uses: dawidd6/action-send-mail@v3
       with:
         server_address: ${{ vars.MAIL_SERVER }}
@@ -50,5 +50,5 @@ jobs:
         subject: "arXiv 数学论文每日摘要"
         to: ${{ vars.MAIL_TO }}
         from: ${{ vars.MAIL_USERNAME }}
-        body: ${{ steps.generate.outputs.body }}
-        attachments: README.md
+        body: file://README.md
+
