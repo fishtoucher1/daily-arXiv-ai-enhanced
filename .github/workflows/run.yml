@@ -39,3 +39,23 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Read README.md as email body
+      id: generate
+      run: |
+        echo "body<<EOF" >> $GITHUB_OUTPUT
+        cat README.md >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+
+    - name: Send email with arXiv math papers
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: ${{ secrets.MAIL_SERVER }}
+        server_port: ${{ secrets.MAIL_PORT }}
+        username: ${{ secrets.MAIL_USERNAME }}
+        password: ${{ secrets.MAIL_PASSWORD }}
+        subject: "arXiv 数学论文每日摘要"
+        to: ${{ secrets.MAIL_TO }}
+        from: ${{ secrets.MAIL_USERNAME }}
+        content_type: text/html
+        body: ${{ steps.generate.outputs.body }}
+        attachments: README.md
