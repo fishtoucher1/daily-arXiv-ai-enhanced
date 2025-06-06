@@ -47,7 +47,6 @@ jobs:
         echo "body<<EOF" >> $GITHUB_OUTPUT
         cat data/$TODAY.md >> $GITHUB_OUTPUT
         echo "EOF" >> $GITHUB_OUTPUT
-
     - name: Send email with arXiv math papers
       uses: dawidd6/action-send-mail@v3
       with:
@@ -58,7 +57,8 @@ jobs:
         subject: "arXiv 数学论文每日摘要"
         to: ${{ vars.MAIL_TO }}
         from: ${{ vars.MAIL_USERNAME }}
-        body: ${{ steps.digest.outputs.body }}
+        body: file://template.md
+
 
 
 
